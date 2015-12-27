@@ -1,42 +1,399 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <link rel="icon" href="/img/favicon.ico">
+<head>
+  <title>Grupo 6</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+  <meta name="Patricia" content="CW Test">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <link href="/css/signin.css" rel="stylesheet">
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link href="http://alfredoferreira.eu/cw/css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://alfredoferreira.eu/cw/css/bootstrap-theme.min.css" rel="stylesheet">
+  <link href="http://alfredoferreira.eu/cw/css/theme.css" rel="stylesheet">
+  <script src="/js/app.js"></script>
+  <style>
 
-    <title>SISE-CWEB</title>
+    /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
+    .row.content {height: 1200px}
 
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/jumbotron-narrow.css" rel="stylesheet">
-    
-  </head>
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+    }
 
-  <body>
-    <div class="container">
-      <div class="header clearfix">
-        <nav>
-          <ul class="nav nav-pills pull-right">
-            <li role="presentation" class="active"><a href="#">Home</a></li>
-            <li role="presentation"><a href="#">About</a></li>
-            <li role="presentation"><a href="#">Contact</a></li>
-          </ul>
-        </nav>
-        <h3 class="text-muted">SISE-CWEB</h3>
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height: auto;} 
+    }
+    th, td {
+      text-align: center;
+    }
+    ul
+    {     
+      list-style-type: none;
+    }
+    .fpage {
+      background: #eaeaea;
+      color: #999;
+      font: 400 16px/1.5em sans-serif;
+      margin: 0;
+    }      
+
+  </style>
+
+</head>
+
+<body>
+  <div ng-app="MedApplication" ng-controller="requestsCtrl">
+
+    <div ng-show="firstpage" class="fpage">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-3"></div>
+          <div class="col-sm-2" align="right">
+            <img src="/img/Logo1NoBG.png" width="100%">
+          </div>
+          <div class="col-sm-4">
+            <br><br><br><br>
+            <h1>MediCare App</h1>
+          </div>
+        </div>
       </div>
 
-      <div class="jumbotron">
-        <h1>Jumbotron heading</h1>
-        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        <p><a class="btn btn-lg btn-success" href="#" role="button">Action!</a></p>
-      </div>
+      <div class="container">
 
-    </div> <!-- /container -->
+        <form class="form-signin" ng-submit="login();">
+          <h2 class="form-signin-heading">Please sign in</h2>
+          <label for="inputUsername" class="sr-only">Username</label>
+          <input type="user" id="inputUsername" class="form-control" placeholder="Username"data-ng-model="user.username" required autofocus>
+          <label for="inputPassword" class="sr-only">Password</label>
+          <input type="password" id="inputPassword" class="form-control" placeholder="Password"data-ng-model="user.password" required>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+          <div><a data-toggle="modal" href="#myModal">Forgot your password?</a></div>
+          <br>
+          <span class="alert alert-danger" ng-show="invalidcombo">Incorrect username or password.</span>
 
-    <script src="/js/bl.js"></script>
-    <script src="/js/app.js"></script>
-  </body>
-</html>
+        </form>
+
+        <div class="modal fade" id="myModal" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Account Information Recovery</h4>
+              </div>
+              <div class="modal-body">
+
+                <form class="form-signin" ng-submit="submitted=true;">
+                  <h2 class="form-signin-heading" style="font-size:20px;">Please insert your e-mail adress.</h2>
+                  <label for="inputEmail" class="sr-only">Email adress</label>
+                  <input type="email" id="inputEmail" class="form-control" placeholder="Email adress" required autofocus>
+                  <br>
+                  <button class="btn btn-default center-block" type="submit">Submit</button>
+                </form>
+                <center><span ng-show="submitted" align="center">An e-mail has been sent to your adress with your new password.</span></center>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- /container -->
+
+    </div>
+
+
+
+
+    <div ng-show="secondpage">
+
+
+
+      <div class="container-fluid">
+        <div class="navbar-fixed-top">
+          <nav class="navbar navbar-default">
+            <div class="col-sm-7">
+              <p class="nav navbar-nav" style="font-size:30px;"> 
+                <img src="/img/Logo1NoBG.png" alt="..." style="width:120px;height:119px;">InSure MediCare</p>
+              </div>
+              <div class="col-sm-4">
+                <h2 align="right">Welcome {{loggeduser.name}}</h2>
+                <p align="right">Specialty: {{loggeduser.speciality}}</p>
+                <button type="button" class="btn btn-primary btn-xs pull-right" ng-click="logout();" align="right">Log out</button>
+              </div>
+              <div class="col-sm-1">
+                <img src="/img/user.png" alt="..." style="width:120px;height:119px; border : 2px solid #696969">
+              </div>
+            </nav>
+          </div>
+          <br><br><br></br>
+
+
+          <div class="container-fluid">
+            <div class="row content">
+              <div class="col-sm-3 sidenav">
+                <h4><center>Waiting List</center></h4>
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search patient name..." data-ng-model="patient_filter">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">
+                      <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                  </span>
+                </div>
+                <ul>
+                  <li data-ng-repeat="p in patients | filter:patient_filter | orderBy:'name'">
+                    <button type="button" class="list-group-item" ng-click="selpatient(p);"><span class="glyphicon glyphicon-user"></span>{{'  : ' + p.name + ' - ID: ' + p.patID}}</button>
+                  </li>
+                </ul>
+              </div>
+              <!--{{'Request ID: ' + c.reqID + '; Report ID: ' + c.repID + ';'}}-->
+              <div class="col-sm-9" >
+                <h2><center>Medical Acts</center></h2>
+                <div class="panel-group">
+
+                  <div class="panel panel-default">
+                    <div class="list-group-item list-group-item-warning"><font size="3">Pending</font></div>
+                    <table class ="table" style="width:100%">
+                      <thead>
+                        <tr>
+                          <th>Request ID</th>
+                          <th>Report ID</th>
+                          <th>Date</th>
+                          <th>Patient</th>
+                          <th>Act</th>
+                          <th>Actual reimbursement (%)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="c in requests | filter: {'status':'PENDING'} | orderBy: 'reqID'">
+                          <td><span class="glyphicon glyphicon-copy"></span>{{'  ' + c.reqID}}</td>
+                          <td>{{c.repID}}</td>
+                          <td>{{c.date}}</td>
+                          <td>{{c.patID}}</td>
+                          <td>{{c.actName}}</td>
+                          <td>{{c.actual_reimb*100}}</td>
+                        </tr>
+                      </tbody>
+                      </table>
+                    </div>
+
+
+                      <div class="panel panel-default">
+                        <div class="list-group-item list-group-item-success"><font size="3">Accepted</font></div>
+                        <table class ="table" style="width:100%">
+                      <thead>
+                        <tr>
+                          <th>Request ID</th>
+                          <th>Report ID</th>
+                          <th>Date</th>
+                          <th>Patient</th>
+                          <th>Act</th>
+                          <th>Actual reimbursement (%)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="c in requests | filter: {'status':'ACCEPTED'} | orderBy: 'reqID'">
+                          <td><span class="glyphicon glyphicon-copy"></span>{{'  ' + c.reqID}}</td>
+                          <td>{{c.repID}}</td>
+                          <td>{{c.date}}</td>
+                          <td>{{c.patID}}</td>
+                          <td>{{c.actName}}</td>
+                          <td>{{c.actual_reimb*100}}</td>
+                        </tr>
+                      </tbody>
+                      </table>
+                      </div>
+            
+                
+                      <div class="panel panel-default">
+                        <div class="list-group-item list-group-item-danger"><font size="3">Rejected</font></div>
+                        <table class ="table" style="width:100%">
+                      <thead>
+                        <tr>
+                          <th>Request ID</th>
+                          <th>Report ID</th>
+                          <th>Date</th>
+                          <th>Patient</th>
+                          <th>Act</th>
+                          <th>Actual reimbursement (%)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="c in requests | filter: {'status':'REJECTED'} | orderBy: 'reqID'">
+                          <td><span class="glyphicon glyphicon-copy"></span>{{'  ' + c.reqID}}</td>
+                          <td>{{c.repID}}</td>
+                          <td>{{c.date}}</td>
+                          <td>{{c.patID}}</td>
+                          <td>{{c.actName}}</td>
+                          <td>{{c.actual_reimb*100}}</td>
+                        </tr>
+                      </tbody>
+                      </table>
+                      </div>
+        
+                  
+                      <div class="panel panel-default">
+                        <div class="list-group-item list-group-item-info"><font size="3">Requested</font></div>
+                        <table class ="table" style="width:100%">
+                      <thead>
+                        <tr>
+                          <th>Request ID</th>
+                          <th>Report ID</th>
+                          <th>Date</th>
+                          <th>Patient</th>
+                          <th>Act</th>
+                          <th>Actual reimbursement (%)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="c in requests | filter: {'status':'REQUESTED'} | orderBy: 'reqID'">
+                          <td><span class="glyphicon glyphicon-copy"></span>{{'  ' + c.reqID}}</td>
+                          <td>{{c.repID}}</td>
+                          <td>{{c.date}}</td>
+                          <td>{{c.patID}}</td>
+                          <td>{{c.actName}}</td>
+                          <td>{{c.actual_reimb*100}}</td>
+                        </tr>
+                      </tbody>
+                      </table>
+                      </div>
+  
+                  </div>
+
+
+
+                </div>
+              </div>
+            </div>
+            <br>
+            <footer class="container-fluid">
+              <center><p>Copyright Group 6 - SISE</p></center>
+            </footer>
+          </div>
+        </div>
+
+        <div ng-show="thirdpage">
+
+          <div class="container-fluid">
+            <div class="navbar-fixed-top">
+              <nav class="navbar navbar-default">
+                <div class="col-sm-7">
+                  <p class="nav navbar-nav" style="font-size:30px;"> 
+                    <img src="/img/Logo1NoBG.png" alt="..." style="width:120px;height:119px;">InSure MediCare</p>
+                  </div>
+                  <div class="col-sm-4">
+                    <h2 align="right">Welcome {{loggeduser.name}}</h2>
+                    <p align="right">Specialty: {{loggeduser.speciality}}</p>
+                    <button type="button" class="btn btn-primary btn-xs pull-right" ng-click="logout();" align="right">Log out</button>
+                  </div>
+                  <div class="col-sm-1">
+                    <img src="/img/user.png" alt="..." style="width:120px;height:119px; border : 2px solid #696969">
+                  </div>
+                </nav>
+              </div>
+              <br><br><br></br>
+
+              <div class="container-fluid">
+                <div class="row content">
+                  <div class="col-sm-3 sidenav">
+                    <h4><center>Patient File</center></h4>
+                    <ul class="nav nav-pills nav-stacked">
+                      <br/>
+                      Patient ID: {{selectedpatient.patID}}
+                      <br/><br/>
+                      Name: {{selectedpatient.name}}
+                      <br/><br/>
+                      Policy Number: {{selectedpatient.policy_number}}
+                      <br/><br/>
+                      Policy Type: {{policy_name}}
+                      <br/><br/>
+                    </ul><br>
+                  </div>
+
+                  <div class="col-sm-9" >
+                    <h2><center>Medical Acts</center></h2>
+
+                    <div class="table-responsive">
+                      <table class="table" style="width:100%">
+                        <thead>
+                          <tr>
+                            <th>Act ID</th>
+                            <th>Cost</th>
+                            <th>Reimbursement %</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="rowContent in rows" ng-init="hideform=false;">
+                            <td>
+                              <form ng-hide="hideform" role="form">
+                                <div class="form-group">
+                                  <select name="repeatSelect" ng-change="chooseAct(acts[data.repeatSelect].actID, rowContent); hideform=true; reimb_perc = reimb;" class="form-control" id="sel1" ng-model="data.repeatSelect">
+                                    <option ng-repeat="act in acts | orderBy:'name'" value="{{act.actID}}">{{act.name}}</option>
+                                  </select>
+                                </div>
+                              </form>
+                            </div>
+                            <span ng-show="hideform">{{acts[data.repeatSelect].name}}</span>
+                            <span></span>
+                          </td>
+                          <td><span ng-show="hideform">{{acts[data.repeatSelect].cost}}</span>
+                          </td>
+                          <td>
+                            <span ng-show="hideform"><ul><li ng-repeat="reimbursement in reimburseList | filter: {'reimbID' : rowContent}">{{reimbursement.reimbursement*100}}</li>
+
+                            </ul></span>
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-default" ng-click="removeRow(rowContent)">-</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <br/><br/>
+                    </table>
+                    <center><button type="button" class="btn btn-default" ng-click="addRow()">+</button></center>
+                    <br/><br/>
+
+
+
+                    <div>
+                      <ul class="pager">
+                        <button type="button" class="btn btn-default" ng-click="backtosecond();">Cancel</button>
+                        <button type="button" class="btn btn-default" ng-click="backtosecond();">Submit</button>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <footer class="container-fluid">
+              <center><p>Copyright Group 6 - SISE</p></center>
+            </footer>
+          </div>
+        </div>
+
+        <script src="/js/bl.js"></script>
+        <script src="/js/app.js"></script>
+      </body>
+      </html>
