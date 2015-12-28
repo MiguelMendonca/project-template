@@ -33,3 +33,7 @@ exports.acts = function handler (request, reply) {
 exports.reimburse = function handler (request, reply) {
 	reply(bl.reimburse(request.payload.actID, request.payload.policytype))
 }
+
+exports.updatereq = function handler (request, reply) {
+	reply(bl.updatereq(request.payload.requestList, request.payload.docID, request.payload.patID))
+}

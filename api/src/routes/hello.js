@@ -49,3 +49,9 @@ server.route({
 	path: '/reimburse',
 	handler: resources.hello.reimburse
 })
+
+server.route({
+	method:'POST',
+	path:'/updatereq',
+	handler: resources.hello.updatereq
+})

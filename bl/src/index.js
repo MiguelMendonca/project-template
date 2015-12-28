@@ -8,7 +8,19 @@ var acts = require('./JFiles/acts.json');
 var doctors = require('./JFiles/doctors.json');
 var reports = require('./JFiles/reports.json');
 
+/*Initializing next request and report IDs*/
 
+var maxreq = 0;
+var maxrep = 0;
+
+	for(var i = 0; i<requests.length; i++) {
+		if( requests[i].reqID > maxreq) {
+			maxreq = requests[i].reqID;
+		}
+		if( requests[i].repID > maxrep) {
+			maxrep = requests[i].repID;
+		}
+	}
 
 
 /*Business logic starts here*/
@@ -49,12 +61,15 @@ exports.postreqs = function (dID){
 					}
 				}
 				var patientName = '';
-				for(k=0; k<patients; k++){
+				for(k=0; k<patients.length; k++){
 					if(patients[k].patID == reportList[i].patID) {
 						patientName = patients[k].name
 					}
 				}
-				requestList.push({ reqID : requests[e].reqID, repID: requests[e].repID, date: reportList[i].date,  patID: patientName, actName: actinfo[0], cost: actinfo[1], actual_reimb: reportList[i].actual_reimb_perc, status: requests[e].status});
+				requestList.push({ 
+					reqID : requests[e].reqID, repID: requests[e].repID, date: reportList[i].date,  patID: patientName, actName: actinfo[0], 
+					cost: actinfo[1], actual_reimb: reportList[i].actual_reimb_perc, status: requests[e].status
+				});
 			}
 		}
 	}
@@ -85,7 +100,6 @@ exports.postpats = function(dID){
 }
 
 exports.selp = function(policytype) {
-	//return "a";
 
 	for( var i=0;i<actsr.length;i++){
 			if(actsr[i].policy_type === policytype){
@@ -108,9 +122,30 @@ exports.reimburse = function(actID, policytype){
 	return false;
 }
 
-	// if(username == 'PBranquinho' && password == "qbrainha"){
-	// 	return [true, {"docID":20,"name":"Patrícia Branquinho","speciality":"Qb Rei","user":"PBranquinho","pass":"omeugrupoeomelhor"}];
-	// }
-	// else{
-	// 	return [false, ''];
-	// }
+exports.updatereq = function(RList, dID, pID) {
+
+	for(var i=0; i < RList.length; i++) {
+		RList[i].reqID = maxreq +1;
+		RList[i].repID = maxrep +1;
+		maxreq++;
+		maxrep++;
+	}
+
+	for(var i=0; i < RList.length; i++) {
+		
+		requests.push({
+			reqID: RList[i].reqID, repID: RList[i].repID, status: RList[i].status
+		});
+		var aID = 0;
+		for(var e=0; e < acts.length; e++) {
+			if(acts[e].name == RList[i].actName) {
+				aID = acts[e].actID;
+			}
+		}
+		reports.push({
+			repID: RList[i].repID, date: RList[i].date, docID: dID, patID: pID, actID: aID, actual_reimb_perc: RList[i].actual_reimb
+		});
+
+	return RList;
+
+}}

@@ -51,7 +51,6 @@
       list-style-type: none;
     }
     .fpage {
-      background: #eaeaea;
       color: #999;
       font: 400 16px/1.5em sans-serif;
       margin: 0;
@@ -349,7 +348,7 @@
                             <td>
                               <form ng-hide="hideform" role="form">
                                 <div class="form-group">
-                                  <select name="repeatSelect" ng-change="chooseAct(acts[data.repeatSelect].actID, rowContent); hideform=true; reimb_perc = reimb;" class="form-control" id="sel1" ng-model="data.repeatSelect">
+                                  <select name="repeatSelect" ng-change="chooseAct(acts[data.repeatSelect].actID, rowContent, data.repeatSelect); hideform=true;" class="form-control" id="sel1" ng-model="data.repeatSelect">
                                     <option ng-repeat="act in acts | orderBy:'name'" value="{{act.actID}}">{{act.name}}</option>
                                   </select>
                                 </div>
@@ -380,7 +379,7 @@
                     <div>
                       <ul class="pager">
                         <button type="button" class="btn btn-default" ng-click="backtosecond();">Cancel</button>
-                        <button type="button" class="btn btn-default" ng-click="backtosecond();">Submit</button>
+                        <button type="button" class="btn btn-default" ng-click="subActs();">Submit</button>
                       </ul>
                     </div>
                   </div>
